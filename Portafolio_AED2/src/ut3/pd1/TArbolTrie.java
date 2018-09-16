@@ -1,4 +1,4 @@
-
+package ut3.pd1;
 import java.util.LinkedList;
 
 public class TArbolTrie implements IArbolTrie {
