@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ut2.ta1;
+package ut2.pd1;
 
 /**
  *
@@ -11,6 +11,7 @@ package ut2.ta1;
  * @param <T>
  */
 public class TNodoArbolGenerico<T> {
+
     private final T dato;
     private final Comparable clave;
     private TNodoArbolGenerico<T> primerHijo;
@@ -46,7 +47,7 @@ public class TNodoArbolGenerico<T> {
     public void setSiguienteHermano(TNodoArbolGenerico<T> siguienteHermano) {
         this.siguienteHermano = siguienteHermano;
     }
-    
+
     public TNodoArbolGenerico<T> buscar(Comparable unaEtiqueta) {
         if (clave.equals(unaEtiqueta)) {
             return this;
@@ -63,8 +64,46 @@ public class TNodoArbolGenerico<T> {
             return null;
         }
     }
-    
+
     public String imprimir() {
         return this.clave.toString();
+    }
+
+    public boolean insertar(Comparable unaEtiqueta, Comparable etiquetaPadre) {
+        if (clave.equals(etiquetaPadre)) {
+            TNodoArbolGenerico<T> nodo = new TNodoArbolGenerico(unaEtiqueta, unaEtiqueta);
+            nodo.setSiguienteHermano(primerHijo);
+            primerHijo = nodo;
+            return true;
+        } else {
+            TNodoArbolGenerico unHijo = primerHijo;
+            while (unHijo != null) {
+                boolean resultado = unHijo.insertar(unaEtiqueta, etiquetaPadre);
+                if (resultado) {
+                    return resultado;
+                } else {
+                    unHijo = unHijo.getSiguienteHermano();
+                }
+            }
+            return false;
+        }
+    }
+
+    public String listarIndentado(int nivel) {
+        String str = repetir("\t", nivel) + imprimir() + "\n";
+        TNodoArbolGenerico unHijo = primerHijo;
+        while (unHijo != null) {
+            str += unHijo.listarIndentado(nivel+1);
+            unHijo = unHijo.getSiguienteHermano();
+        }
+        return str;
+    }
+
+    private String repetir(String s, int n) {
+        String str = "";
+        for (int i = 0; i < n; i++) {
+            str += s;
+        }
+        return str;
     }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ut2.ta1;
+package ut2.pd1;
 
 /**
  *
@@ -29,6 +29,27 @@ public class TArbolGenerico<T> {
             return raiz.buscar(unaEtiqueta);
         } else {
             return null;
+        }
+    }
+    
+    public boolean insertar(Comparable unaEtiqueta, Comparable etiquetaPadre) {
+        if (raiz != null) {
+            return raiz.insertar(unaEtiqueta, etiquetaPadre);
+        } else {
+            if (etiquetaPadre.equals("")) {
+                raiz = new TNodoArbolGenerico(unaEtiqueta, unaEtiqueta);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    
+    public String listarIndentado() {
+        if (raiz != null) {
+            return raiz.listarIndentado(0);
+        } else {
+            return "";
         }
     }
 }
