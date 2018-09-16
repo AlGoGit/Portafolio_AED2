@@ -37,23 +37,4 @@ public class TArbolTrie implements IArbolTrie {
         }
         return lista;
     }
-
-    public void indizarLibro(String archivo) {
-        String[] palabrasclave = ManejadorArchivosGenerico.leerArchivo(archivo);
-        int pagina = 1;
-        int linea = 1;
-        for (String p : palabrasclave) {
-            String p1 = p.replaceAll("[^a-zA-Z ]", "");
-            String[] p2 = p1.split(" ");
-            for (String p3 : p2) {
-                insertar(p3.toLowerCase(), pagina);  
-            }
-            if (linea >= 50) {
-                pagina++;
-                linea = 0;
-            }
-            linea++;
-        }
-    }
-
 }
