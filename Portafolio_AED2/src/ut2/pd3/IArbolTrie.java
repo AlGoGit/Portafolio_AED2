@@ -15,7 +15,7 @@ public interface IArbolTrie {
 
     void imprimir();
     
-    int buscar(String palabra);
+    String buscar(String palabra);
 
     void insertar(String palabra, int pagina);
 

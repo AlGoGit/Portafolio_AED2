@@ -10,8 +10,12 @@ public class Main {
     public static void main(String[] args){
         TArbolTrie trie = new TArbolTrie();
 
-        trie.indizarLibro("src/ut2/pd3/libropru.txt");
+        trie.indizarLibro("src/ut2/pd3/libro.txt");
         
-        trie.imprimir();   
+        System.out.println(trie.buscar("surprised"));
+        System.out.println(trie.buscar("abductor"));
+        System.out.println(trie.buscar("than"));
+        System.out.println(trie.buscar("abcacb"));
+        System.out.println(trie.buscar("abunubn"));
     }
 }

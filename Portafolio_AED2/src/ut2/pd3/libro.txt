@@ -1,4 +1,4 @@
-﻿MEMOIRS OF SHERLOCK HOLMES
+MEMOIRS OF SHERLOCK HOLMES
 by Sir Arthur Conan Doyle
 
 I was not surprised. Indeed, my only wonder was that he had not already
@@ -1131,5 +1131,3 @@ advanced in years without being positively decrepit."
 
 Very sincerely yours,
 Sherlock Holmes
-
-

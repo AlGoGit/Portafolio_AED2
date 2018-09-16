@@ -51,17 +51,31 @@ public class TNodoTrie implements INodoTrie {
         imprimir("", this);
     }
     
-    private TNodoTrie buscarNodoTrie(String s) {
+//    private TNodoTrie buscar(String s) {
+//        TNodoTrie nodo = this;
+//        for (int c = 0; c < s.length(); c++) {
+//            int indice = s.charAt(c) - 'a';
+//            if (nodo.hijos[indice] == null) {
+//                return null;
+//            }
+//            nodo = nodo.hijos[indice];
+//        }
+//        return nodo;
+//    }
+    
+    public String buscar(String s) {
         TNodoTrie nodo = this;
+        int comparaciones = 0;
         for (int c = 0; c < s.length(); c++) {
             int indice = s.charAt(c) - 'a';
             if (nodo.hijos[indice] == null) {
-                return null;
+                return "No existe en el indice.";
             }
+            comparaciones++;
             nodo = nodo.hijos[indice];
         }
-        return nodo;
-    }
+        return s + " " + nodo.getPaginas().toString() + " (" + comparaciones + " comparaciones)";
+    }  
     
     private void predecirRecorrido(String s, LinkedList<String> palabras, TNodoTrie nodo) {
         if (nodo != null) {

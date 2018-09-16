@@ -21,8 +21,12 @@ public class TArbolTrie implements IArbolTrie {
     }
 
     @Override
-    public int buscar(String palabra) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String buscar(String palabra) {
+        if (raiz != null) {
+            return raiz.buscar(palabra);
+        } else {
+            return "No existe en el indice.";
+        }
     }
 
     @Override
@@ -39,7 +43,7 @@ public class TArbolTrie implements IArbolTrie {
         int pagina = 1;
         int linea = 1;
         for (String p : palabrasclave) {
-            String p1 = p.replaceAll("[,:;.\"()]?!", "");
+            String p1 = p.replaceAll("[^a-zA-Z ]", "");
             String[] p2 = p1.split(" ");
             for (String p3 : p2) {
                 insertar(p3.toLowerCase(), pagina);  
