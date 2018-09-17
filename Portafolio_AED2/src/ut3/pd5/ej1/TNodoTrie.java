@@ -1,4 +1,4 @@
-package ut3.pd1;
+package ut3.pd5.ej1;
 
 import java.util.HashMap;
 import java.util.LinkedList;
