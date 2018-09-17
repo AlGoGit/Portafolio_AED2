@@ -1,4 +1,4 @@
-
+package ut2.pd3;
 
 import java.util.LinkedList;
 
@@ -51,18 +51,6 @@ public class TNodoTrie implements INodoTrie {
         imprimir("", this);
     }
     
-//    private TNodoTrie buscar(String s) {
-//        TNodoTrie nodo = this;
-//        for (int c = 0; c < s.length(); c++) {
-//            int indice = s.charAt(c) - 'a';
-//            if (nodo.hijos[indice] == null) {
-//                return null;
-//            }
-//            nodo = nodo.hijos[indice];
-//        }
-//        return nodo;
-//    }
-    
     public String buscar(String s) {
         TNodoTrie nodo = this;
         int comparaciones = 0;
@@ -94,19 +82,17 @@ public class TNodoTrie implements INodoTrie {
     public void predecir(String prefijo, LinkedList<String> palabras) {
         boolean recorro = true;
         TNodoTrie nodo = this;
-        String s = "";
         for (int c = 0; c < prefijo.length(); c++) {
             int indice = prefijo.charAt(c) - 'a';      
             if (nodo.hijos[indice] != null) {
                 nodo = nodo.hijos[indice];
-                s += prefijo.charAt(c);
             } else {
                 recorro = false;
                 break;
             }
         }
         if (recorro){
-            predecirRecorrido(s, palabras, nodo);
+            predecirRecorrido(prefijo, palabras, nodo);
         }
         
     } 

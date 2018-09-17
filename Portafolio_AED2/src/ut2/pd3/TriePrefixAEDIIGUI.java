@@ -1,4 +1,4 @@
-
+package ut2.pd3;
 import java.util.LinkedList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -19,19 +19,16 @@ public class TriePrefixAEDIIGUI extends javax.swing.JFrame {
     
     private TArbolTrie trie;
     
-//    /**
-//     * Creates new form TriePrefixAEDIIGUI
-//     */
-//    public TriePrefixAEDIIGUI() {
-//        this.trie = new TArbolTrie();
-//
-//        String[] palabrasclave = ManejadorArchivosGenerico.leerArchivo("./src/masPalabras.txt");
-//        for (String p : palabrasclave) {
-//                trie.insertar(p);
-//        }
-//        
-//        initComponents();
-//    }
+    /**
+     * Creates new form TriePrefixAEDIIGUI
+     */
+    public TriePrefixAEDIIGUI() {
+        this.trie = new TArbolTrie();
+
+        trie.indizarLibro("src/ut2/pd3/libro.txt");
+        
+        initComponents();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
