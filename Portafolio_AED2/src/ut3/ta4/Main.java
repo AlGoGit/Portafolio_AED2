@@ -16,8 +16,8 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        int cantidadElementos = 9;
-        double factorCarga = 0.99;
+        int cantidadElementos = 200;
+        double factorCarga = 0.5;
         THash hash = new THash(cantidadElementos, factorCarga); 
         
         
