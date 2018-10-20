@@ -1,4 +1,4 @@
- Asuncion,Buenos_Aires,1600
+Asuncion,Buenos_Aires,1600
 Asuncion,Curitiba,800
 Asuncion,Porto_Alegre,700
 Buenos_Aires,Asuncion,1600
