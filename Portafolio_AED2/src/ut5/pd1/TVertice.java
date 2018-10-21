@@ -1,7 +1,8 @@
-package ut4.pd5;
+package ut5.pd1;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Queue;
 
 public class TVertice implements IVertice {
 
@@ -110,16 +111,6 @@ public class TVertice implements IVertice {
             }
         }
     }
-    
-    public void bpfPostorden(LinkedList<TVertice> visitados) {
-        visitado = true;
-        for (IAdyacencia adyacente : adyacentes) {
-            if (!adyacente.getDestino().getVisitado()) {
-                adyacente.getDestino().bpfPostorden(visitados);
-            }
-        }
-        visitados.addFirst(this);
-    }
 
     @Override
     public TCaminos todosLosCaminos(Comparable etiqutaDestino, TCamino caminoPrevio, TCaminos todosLosCaminos) {
@@ -162,7 +153,18 @@ public class TVertice implements IVertice {
 
     @Override
     public void bea(Collection<TVertice> visitados) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        visitado = true;
+        visitados.add(this);
+        Queue<TVertice> cola = new LinkedList<>();
+        for (IAdyacencia adyacente : adyacentes) {
+            if (!adyacente.getDestino().getVisitado()) {
+                cola.add(adyacente.getDestino());
+            }
+        }
+        TVertice siguiente = cola.poll();
+        if (siguiente != null) {
+            siguiente.bea(visitados);
+        }
     }
     
     public void clasificacionTopologica(Collection<TVertice> lista) {
@@ -173,6 +175,16 @@ public class TVertice implements IVertice {
             }
         }
         lista.add(this);
+    }
+    
+    public void bpfPostorden(LinkedList<TVertice> visitados) {
+        visitado = true;
+        for (IAdyacencia adyacente : adyacentes) {
+            if (!adyacente.getDestino().getVisitado()) {
+                adyacente.getDestino().bpfPostorden(visitados);
+            }
+        }
+        visitados.addFirst(this);
     }
 
 }

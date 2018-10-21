@@ -1,4 +1,4 @@
-package ut4.pd5;
+package ut5.pd1;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 public class TGrafoDirigido implements IGrafoDirigido {
 
-    private final Map<Comparable, TVertice> vertices; //lista de vertices del grafo.-
+    protected final Map<Comparable, TVertice> vertices; //lista de vertices del grafo.-
 
     public TGrafoDirigido(Collection<TVertice> vertices, Collection<TArista> aristas) {
         this.vertices = new HashMap<>();
@@ -257,7 +257,15 @@ public class TGrafoDirigido implements IGrafoDirigido {
 
     @Override
     public Collection<TVertice> bea() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        desvisitarVertices();
+        Collection<TVertice> resultado = new LinkedList<>();
+        for (TVertice vertice : vertices.values()) {
+            if (!vertice.getVisitado()) {
+                vertice.bea(resultado);
+            }
+        }
+        desvisitarVertices();
+        return resultado;
     }
 
     @Override

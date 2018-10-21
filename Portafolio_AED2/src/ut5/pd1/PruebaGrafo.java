@@ -1,4 +1,4 @@
-package ut4.pd5;
+package ut5.pd1;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,8 +12,8 @@ package ut4.pd5;
  */
 public class PruebaGrafo {
     public static void main(String[] args) {
-        TGrafoDirigido gd = (TGrafoDirigido) UtilGrafos.cargarGrafo("./src/ut4/pd5/aeropuertos1.txt","./src/ut4/pd5/conexiones3.txt", false, TGrafoDirigido.class);
-        
+//        TGrafoDirigido gd = (TGrafoDirigido) UtilGrafos.cargarGrafo("./src/ut4/pd5/aeropuertos2.txt","./src/ut4/pd5/conexiones2.txt", false, TGrafoDirigido.class);
+//        
 //        UtilGrafos.imprimirMatrizMejorado(gd.floyd(), gd.getVertices(), "Floyd");
 //        
 //        for (Comparable key : gd.getVertices().keySet()) {
@@ -41,11 +41,18 @@ public class PruebaGrafo {
 //        
 //        TCaminos caminos = gd.todosLosCaminos("Montevideo", "Rio_de_Janeiro");
 //        caminos.imprimirCaminosConsola();
+//
+//        System.out.println(gd.esConexo());
+//        System.out.println(gd.clasificacionTopologica("Asuncion").toString());
+//        System.out.println(gd.caminoCritico("Asuncion", "Santos").imprimirEtiquetas());
+//        System.out.println(gd.componentesConexos().toString());
 
-        System.out.println(gd.esConexo());
-        System.out.println(gd.clasificacionTopologica("Asuncion").toString());
-        //System.out.println(gd.caminoCritico("Asuncion", "Santos").imprimirEtiquetas());
-        System.out.println(gd.componentesConexos().toString());
+        TGrafoNoDirigido gnd = (TGrafoNoDirigido) UtilGrafos.cargarGrafo("./src/ut5/pd1/vertices.txt","./src/ut5/pd1/aristas.txt", false, TGrafoNoDirigido.class);
         
+        TGrafoNoDirigido gnd1 = gnd.Prim();
+        System.out.println(gnd1.getVertices().keySet().toString());
+        System.out.println(gnd1.getLasAristas().imprimirEtiquetas());
+        
+        System.out.println(gnd.bea().toString());
     }
 }
