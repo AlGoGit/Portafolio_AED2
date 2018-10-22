@@ -182,6 +182,9 @@ public class TGrafoDirigido implements IGrafoDirigido {
 
     @Override
     public Comparable centroDelGrafo() {
+        if (vertices.isEmpty()) {
+            return null;
+        }
         Double[][] matrizDeFloyd = floyd();
         Double[] vectorExcentricidades = new Double[matrizDeFloyd.length];
 
@@ -299,8 +302,10 @@ public class TGrafoDirigido implements IGrafoDirigido {
     public Collection<TVertice> bpf(TVertice vertice) {
         desvisitarVertices();
         Collection<TVertice> resultado = new LinkedList<>();
-        if (!vertice.getVisitado()) {
-            vertice.bpf(resultado);
+        if (vertices.containsValue(vertice)) {
+            if (!vertice.getVisitado()) {
+                vertice.bpf(resultado);
+            }
         }
         desvisitarVertices();
         return resultado;
@@ -404,35 +409,39 @@ public class TGrafoDirigido implements IGrafoDirigido {
         }
         return true;
     }
-    
+
     public Collection<TVertice> clasificacionTopologica(Comparable etiquetaOrigen) {
         desvisitarVertices();
         LinkedList<TVertice> lista = new LinkedList<>();
         if (!tieneCiclo()) {
             TVertice vertice = vertices.get(etiquetaOrigen);
-            vertice.clasificacionTopologica(lista);
+            if (vertice != null) {
+                vertice.clasificacionTopologica(lista);
+            }
         }
         Collections.reverse(lista);
         desvisitarVertices();
         return lista;
     }
-    
+
     public TCamino caminoCritico(Comparable etiquetaOrigen, Comparable etiquetaDestino) {
         TCamino critico = null;
         if (!tieneCiclo()) {
             TCaminos caminos = todosLosCaminos(etiquetaOrigen, etiquetaDestino);
-            double max = 0;
-            
-            for (TCamino camino : caminos.getCaminos()) {
-                if (camino.getCostoTotal() > max) {
-                    max = camino.getCostoTotal();
-                    critico = camino;
+            if (caminos != null) {
+                double max = 0;
+
+                for (TCamino camino : caminos.getCaminos()) {
+                    if (camino.getCostoTotal() > max) {
+                        max = camino.getCostoTotal();
+                        critico = camino;
+                    }
                 }
             }
         }
         return critico;
     }
-    
+
     public Collection<Collection<TVertice>> componentesConexos() {
         Collection<Collection<TVertice>> componentes = new LinkedList<>();
 
@@ -451,7 +460,7 @@ public class TGrafoDirigido implements IGrafoDirigido {
         }
         return componentes;
     }
-    
+
     private TGrafoDirigido grafoOpuesto() {
         LinkedList<TArista> aristas = new LinkedList<>();
         for (TVertice v : vertices.values()) {
@@ -461,7 +470,7 @@ public class TGrafoDirigido implements IGrafoDirigido {
         }
         return new TGrafoDirigido(vertices.values(), aristas);
     }
-    
+
     private LinkedList<TVertice> bpfPostorden() {
         desvisitarVertices();
         LinkedList<TVertice> resultado = new LinkedList<>();

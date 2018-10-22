@@ -257,7 +257,15 @@ public class TGrafoDirigido implements IGrafoDirigido {
 
     @Override
     public Collection<TVertice> bea() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        desvisitarVertices();
+        Collection<TVertice> resultado = new LinkedList<>();
+        for (TVertice vertice : vertices.values()) {
+            if (!vertice.getVisitado()) {
+                vertice.bea(resultado);
+            }
+        }
+        desvisitarVertices();
+        return resultado;
     }
 
     @Override
@@ -291,8 +299,10 @@ public class TGrafoDirigido implements IGrafoDirigido {
     public Collection<TVertice> bpf(TVertice vertice) {
         desvisitarVertices();
         Collection<TVertice> resultado = new LinkedList<>();
-        if (!vertice.getVisitado()) {
-            vertice.bpf(resultado);
+        if (vertices.containsValue(vertice)) {
+            if (!vertice.getVisitado()) {
+                vertice.bpf(resultado);
+            }
         }
         desvisitarVertices();
         return resultado;

@@ -153,20 +153,20 @@ public class TVertice implements IVertice {
 
     @Override
     public void bea(Collection<TVertice> visitados) {
-        visitado = true;
-        visitados.add(this);
         Queue<TVertice> cola = new LinkedList<>();
-        for (IAdyacencia adyacente : adyacentes) {
-            if (!adyacente.getDestino().getVisitado()) {
-                cola.add(adyacente.getDestino());
+        TVertice aux = this;
+        do {
+            if (!aux.getVisitado()) {
+                for (IAdyacencia adyacente : aux.getAdyacentes()) {
+                    cola.add(adyacente.getDestino());
+                }
             }
-        }
-        TVertice siguiente = cola.poll();
-        if (siguiente != null) {
-            siguiente.bea(visitados);
-        }
+            aux.setVisitado(true);
+            visitados.add(aux);
+            aux = cola.poll();
+        } while (!cola.isEmpty());
     }
-    
+
     public void clasificacionTopologica(Collection<TVertice> lista) {
         visitado = true;
         for (IAdyacencia adyacente : adyacentes) {
@@ -176,7 +176,7 @@ public class TVertice implements IVertice {
         }
         lista.add(this);
     }
-    
+
     public void bpfPostorden(LinkedList<TVertice> visitados) {
         visitado = true;
         for (IAdyacencia adyacente : adyacentes) {
