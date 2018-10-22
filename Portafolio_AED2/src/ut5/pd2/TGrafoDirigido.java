@@ -232,7 +232,7 @@ public class TGrafoDirigido implements IGrafoDirigido {
             }
         }
         return matrizFloyd;
-    }
+    } 
 
     @Override
     public Comparable obtenerExcentricidad(Comparable etiquetaVertice) {
@@ -419,7 +419,6 @@ public class TGrafoDirigido implements IGrafoDirigido {
                 vertice.clasificacionTopologica(lista);
             }
         }
-        Collections.reverse(lista);
         desvisitarVertices();
         return lista;
     }

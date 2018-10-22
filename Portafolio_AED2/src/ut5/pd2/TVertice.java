@@ -167,14 +167,14 @@ public class TVertice implements IVertice {
         } while (!cola.isEmpty());
     }
 
-    public void clasificacionTopologica(Collection<TVertice> lista) {
+    public void clasificacionTopologica(LinkedList<TVertice> lista) {
         visitado = true;
         for (IAdyacencia adyacente : adyacentes) {
             if (!adyacente.getDestino().getVisitado()) {
                 adyacente.getDestino().clasificacionTopologica(lista);
             }
         }
-        lista.add(this);
+        lista.addFirst(this);
     }
 
     public void bpfPostorden(LinkedList<TVertice> visitados) {

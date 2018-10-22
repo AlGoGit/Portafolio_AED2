@@ -414,7 +414,6 @@ public class TGrafoDirigido implements IGrafoDirigido {
             TVertice vertice = vertices.get(etiquetaOrigen);
             vertice.clasificacionTopologica(lista);
         }
-        Collections.reverse(lista);
         desvisitarVertices();
         return lista;
     }

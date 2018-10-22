@@ -12,7 +12,7 @@ package ut4.pd5;
  */
 public class PruebaGrafo {
     public static void main(String[] args) {
-        TGrafoDirigido gd = (TGrafoDirigido) UtilGrafos.cargarGrafo("./src/ut4/pd5/aeropuertos1.txt","./src/ut4/pd5/conexiones3.txt", false, TGrafoDirigido.class);
+        TGrafoDirigido gd = (TGrafoDirigido) UtilGrafos.cargarGrafo("./src/ut4/pd5/aeropuertos1.txt","./src/ut4/pd5/conexiones2.txt", false, TGrafoDirigido.class);
         
 //        UtilGrafos.imprimirMatrizMejorado(gd.floyd(), gd.getVertices(), "Floyd");
 //        
