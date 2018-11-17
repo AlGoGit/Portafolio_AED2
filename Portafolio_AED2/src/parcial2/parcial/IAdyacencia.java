@@ -1,4 +1,4 @@
-package parcial1;
+package parcial2.parcial;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -8,10 +8,14 @@ package parcial1;
 
 /**
  *
- * @author ernesto
+ * @author Ernesto
  */
-public interface INodoTrie {
+public interface IAdyacencia {
 
-   void insertar(TDispositivo unDispositivo);
+    double getCosto();
+
+    TVertice getDestino();
+
+    Comparable getEtiqueta();
     
 }

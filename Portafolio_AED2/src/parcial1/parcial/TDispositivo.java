@@ -1,4 +1,4 @@
-package parcial1;
+package parcial1.parcial;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

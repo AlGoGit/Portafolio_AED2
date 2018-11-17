@@ -1,4 +1,4 @@
-package parcial1;
+package parcial1.parcial;
 import java.util.Collection;
 
 public class Main {
