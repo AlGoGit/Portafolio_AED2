@@ -11,6 +11,8 @@ public class TClasificador {
     public static final int METODO_CLASIFICACION_QUICKSORT = 4;
     public static final int METODO_CLASIFICACION_HEAPSORT = 5;
     public static final int METODO_CLASIFICACION_SELECCION = 6;
+    public static final int METODO_CLASIFICACION_BINSORT = 7;
+    public static final int METODO_CLASIFICACION_RADIX = 8;
 
     /**
      * Punto de entrada al clasificador
@@ -181,12 +183,12 @@ public class TClasificador {
                     r = ultimo; // afuera del else
                 } else { //r tiene 2 hijos
                     int posicionIntercambio = 0;
-                    if (datosParaClasificar[2 * r] > datosParaClasificar[2 * r + 1]) {
+                    if (datosParaClasificar[2 * r] < datosParaClasificar[2 * r + 1]) {
                         posicionIntercambio = 2 * r + 1;
                     } else {
                         posicionIntercambio = 2 * r;
                     }
-                    if (datosParaClasificar[r] > datosParaClasificar[posicionIntercambio]) { // mayor
+                    if (datosParaClasificar[r] < datosParaClasificar[posicionIntercambio]) { // mayor
                         intercambiar(datosParaClasificar, r, posicionIntercambio);
                         r = posicionIntercambio;
                     } else {
@@ -212,6 +214,23 @@ public class TClasificador {
         return datosParaClasificar;
     }
 
+    protected int[] ordenarPorCuenta(int[] datosParaClasificar, int maximo) {
+        int[] cuenta = new int[maximo + 1];
+        for (int i = 0; i < datosParaClasificar.length; i++) {
+            cuenta[datosParaClasificar[i]]++;
+        }
+        for (int i = 1; i < maximo + 1; i++) {
+            cuenta[i] += cuenta[i - 1];
+        }
+        int[] salida = new int[datosParaClasificar.length];
+        for (int i = datosParaClasificar.length - 1; i >= 0; i--) {
+            int j = cuenta[datosParaClasificar[i]] - 1;
+            salida[j] = datosParaClasificar[i];
+            cuenta[datosParaClasificar[i]]--;
+        }
+        return salida;
+    }
+
     private int encuentraPivote(int izq, int der) {
         if (izq == der) {
             return -1;
@@ -232,6 +251,7 @@ public class TClasificador {
         GeneradorDatosGenericos gdg1 = new GeneradorDatosGenericos(300);
         GeneradorDatosGenericos gdg2 = new GeneradorDatosGenericos(10000);
         GeneradorDatosGenericos gdg3 = new GeneradorDatosGenericos(30000);
+        GeneradorDatosGenericos gdg4 = new GeneradorDatosGenericos(20);
 
 //        System.out.println("");
 //        System.out.println("**INSERCION DIRECTA**");
@@ -264,23 +284,23 @@ public class TClasificador {
 //        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_BURBUJA)));
 //        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_BURBUJA)));
 //        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_BURBUJA)));
-
-        System.out.println("");
-        System.out.println("**QUICKSORT**");
-        System.out.println("Inserción 300 aleatorio:   " + (medidaTiempo.medir(gdg1.generarDatosAleatorios(), METODO_CLASIFICACION_QUICKSORT)));
-        System.out.println("Inserción 300 ascendente:  " + (medidaTiempo.medir(gdg1.generarDatosAscendentes(), METODO_CLASIFICACION_QUICKSORT)));
-        System.out.println("Inserción 300 descendente: " + (medidaTiempo.medir(gdg1.generarDatosDescendentes(), METODO_CLASIFICACION_QUICKSORT)));
-
-        System.out.println("");
-        System.out.println("Inserción 10.000 aleatorio:   " + (medidaTiempo.medir(gdg2.generarDatosAleatorios(), METODO_CLASIFICACION_QUICKSORT)));
-        System.out.println("Inserción 10.000 ascendente:  " + (medidaTiempo.medir(gdg2.generarDatosAscendentes(), METODO_CLASIFICACION_QUICKSORT)));
-        System.out.println("Inserción 10.000 descendente: " + (medidaTiempo.medir(gdg2.generarDatosDescendentes(), METODO_CLASIFICACION_QUICKSORT)));
-        
-        System.out.println("");
-        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_QUICKSORT)));
-        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_QUICKSORT)));
-        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_QUICKSORT)));
-
+//
+//        System.out.println("");
+//        System.out.println("**QUICKSORT**");
+//        System.out.println("Inserción 300 aleatorio:   " + (medidaTiempo.medir(gdg1.generarDatosAleatorios(), METODO_CLASIFICACION_QUICKSORT)));
+//        System.out.println("Inserción 300 ascendente:  " + (medidaTiempo.medir(gdg1.generarDatosAscendentes(), METODO_CLASIFICACION_QUICKSORT)));
+//        System.out.println("Inserción 300 descendente: " + (medidaTiempo.medir(gdg1.generarDatosDescendentes(), METODO_CLASIFICACION_QUICKSORT)));
+//
+//        System.out.println("");
+//        System.out.println("Inserción 10.000 aleatorio:   " + (medidaTiempo.medir(gdg2.generarDatosAleatorios(), METODO_CLASIFICACION_QUICKSORT)));
+//        System.out.println("Inserción 10.000 ascendente:  " + (medidaTiempo.medir(gdg2.generarDatosAscendentes(), METODO_CLASIFICACION_QUICKSORT)));
+//        System.out.println("Inserción 10.000 descendente: " + (medidaTiempo.medir(gdg2.generarDatosDescendentes(), METODO_CLASIFICACION_QUICKSORT)));
+//        
+//        System.out.println("");
+//        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_QUICKSORT)));
+//        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_QUICKSORT)));
+//        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_QUICKSORT)));
+//
 //        System.out.println("");
 //        System.out.println("**SHELLSORT**");
 //        System.out.println("Inserción 300 aleatorio:   " + (medidaTiempo.medir(gdg1.generarDatosAleatorios(), METODO_CLASIFICACION_SHELL)));
@@ -296,37 +316,47 @@ public class TClasificador {
 //        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_SHELL)));
 //        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_SHELL)));
 //        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_SHELL)));
+//        
+//        System.out.println("");
+//        System.out.println("**HEAPSORT**");
+//        System.out.println("Inserción 300 aleatorio:   " + (medidaTiempo.medir(gdg1.generarDatosAleatorios(), METODO_CLASIFICACION_HEAPSORT)));
+//        System.out.println("Inserción 300 ascendente:  " + (medidaTiempo.medir(gdg1.generarDatosAscendentes(), METODO_CLASIFICACION_HEAPSORT)));
+//        System.out.println("Inserción 300 descendente: " + (medidaTiempo.medir(gdg1.generarDatosDescendentes(), METODO_CLASIFICACION_HEAPSORT)));
+//
+//        System.out.println("");
+//        System.out.println("Inserción 10.000 aleatorio:   " + (medidaTiempo.medir(gdg2.generarDatosAleatorios(), METODO_CLASIFICACION_HEAPSORT)));
+//        System.out.println("Inserción 10.000 ascendente:  " + (medidaTiempo.medir(gdg2.generarDatosAscendentes(), METODO_CLASIFICACION_HEAPSORT)));
+//        System.out.println("Inserción 10.000 descendente: " + (medidaTiempo.medir(gdg2.generarDatosDescendentes(), METODO_CLASIFICACION_HEAPSORT)));
+//
+//        System.out.println("");
+//        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_HEAPSORT)));
+//        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_HEAPSORT)));
+//        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_HEAPSORT)));
+//        
+//        System.out.println("");
+//        System.out.println("**SELECCION**");
+//        System.out.println("Inserción 300 aleatorio:   " + (medidaTiempo.medir(gdg1.generarDatosAleatorios(), METODO_CLASIFICACION_SELECCION)));
+//        System.out.println("Inserción 300 ascendente:  " + (medidaTiempo.medir(gdg1.generarDatosAscendentes(), METODO_CLASIFICACION_SELECCION)));
+//        System.out.println("Inserción 300 descendente: " + (medidaTiempo.medir(gdg1.generarDatosDescendentes(), METODO_CLASIFICACION_SELECCION)));
+//
+//        System.out.println("");
+//        System.out.println("Inserción 10.000 aleatorio:   " + (medidaTiempo.medir(gdg2.generarDatosAleatorios(), METODO_CLASIFICACION_SELECCION)));
+//        System.out.println("Inserción 10.000 ascendente:  " + (medidaTiempo.medir(gdg2.generarDatosAscendentes(), METODO_CLASIFICACION_SELECCION)));
+//        System.out.println("Inserción 10.000 descendente: " + (medidaTiempo.medir(gdg2.generarDatosDescendentes(), METODO_CLASIFICACION_SELECCION)));
+//        
+//        System.out.println("");
+//        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_SELECCION)));
+//        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_SELECCION)));
+//        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_SELECCION)));
         
-        System.out.println("");
-        System.out.println("**HEAPSORT**");
-        System.out.println("Inserción 300 aleatorio:   " + (medidaTiempo.medir(gdg1.generarDatosAleatorios(), METODO_CLASIFICACION_HEAPSORT)));
-        System.out.println("Inserción 300 ascendente:  " + (medidaTiempo.medir(gdg1.generarDatosAscendentes(), METODO_CLASIFICACION_HEAPSORT)));
-        System.out.println("Inserción 300 descendente: " + (medidaTiempo.medir(gdg1.generarDatosDescendentes(), METODO_CLASIFICACION_HEAPSORT)));
-
-        System.out.println("");
-        System.out.println("Inserción 10.000 aleatorio:   " + (medidaTiempo.medir(gdg2.generarDatosAleatorios(), METODO_CLASIFICACION_HEAPSORT)));
-        System.out.println("Inserción 10.000 ascendente:  " + (medidaTiempo.medir(gdg2.generarDatosAscendentes(), METODO_CLASIFICACION_HEAPSORT)));
-        System.out.println("Inserción 10.000 descendente: " + (medidaTiempo.medir(gdg2.generarDatosDescendentes(), METODO_CLASIFICACION_HEAPSORT)));
-
-        System.out.println("");
-        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_HEAPSORT)));
-        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_HEAPSORT)));
-        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_HEAPSORT)));
-        
-        System.out.println("");
-        System.out.println("**SELECCION**");
-        System.out.println("Inserción 300 aleatorio:   " + (medidaTiempo.medir(gdg1.generarDatosAleatorios(), METODO_CLASIFICACION_SELECCION)));
-        System.out.println("Inserción 300 ascendente:  " + (medidaTiempo.medir(gdg1.generarDatosAscendentes(), METODO_CLASIFICACION_SELECCION)));
-        System.out.println("Inserción 300 descendente: " + (medidaTiempo.medir(gdg1.generarDatosDescendentes(), METODO_CLASIFICACION_SELECCION)));
-
-        System.out.println("");
-        System.out.println("Inserción 10.000 aleatorio:   " + (medidaTiempo.medir(gdg2.generarDatosAleatorios(), METODO_CLASIFICACION_SELECCION)));
-        System.out.println("Inserción 10.000 ascendente:  " + (medidaTiempo.medir(gdg2.generarDatosAscendentes(), METODO_CLASIFICACION_SELECCION)));
-        System.out.println("Inserción 10.000 descendente: " + (medidaTiempo.medir(gdg2.generarDatosDescendentes(), METODO_CLASIFICACION_SELECCION)));
-        
-        System.out.println("");
-        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_SELECCION)));
-        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_SELECCION)));
-        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_SELECCION)));
+        System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_INSERCION, false)));
+        System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_SHELL, false)));
+        System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_BURBUJA, false)));
+        System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_QUICKSORT, false)));
+        System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_HEAPSORT, false)));
+        System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_SELECCION, false)));
+        System.out.println(Arrays.toString(clasif.ordenarPorCuenta(new int[]{1, 3, 2, 1, 4, 5, 4, 4}, 5)));
+//        System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_BINSORT, false)));
+//        System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_RADIX, false)));
     }
 }
