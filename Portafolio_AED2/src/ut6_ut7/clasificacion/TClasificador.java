@@ -1,5 +1,6 @@
 package ut6_ut7.clasificacion;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -11,8 +12,7 @@ public class TClasificador {
     public static final int METODO_CLASIFICACION_QUICKSORT = 4;
     public static final int METODO_CLASIFICACION_HEAPSORT = 5;
     public static final int METODO_CLASIFICACION_SELECCION = 6;
-    public static final int METODO_CLASIFICACION_BINSORT = 7;
-    public static final int METODO_CLASIFICACION_RADIX = 8;
+    public static final int METODO_CLASIFICACION_RADIX = 7;
 
     /**
      * Punto de entrada al clasificador
@@ -131,7 +131,6 @@ public class TClasificador {
     }
 
     private int[] quicksort(int[] entrada, int i, int j, int n, int llamadas) {
-//        if (llamadas < 10 * (Math.log(n) / Math.log(2))) {
         int izquierda = i;
         int derecha = j;
         int posicionPivote = encuentraPivote(izquierda, derecha);
@@ -157,8 +156,20 @@ public class TClasificador {
                 quicksort(entrada, izquierda, j, n, llamadas + 1);
             }
         }
-//        }
         return entrada;
+    }
+    
+    private int encuentraPivote(int izq, int der) {
+        if (izq == der) {
+            return -1;
+        }
+        return ((izq + der) / 2);
+    }
+
+    private int encuentraPivote2(int izq, int der) {
+        Random rand = new Random();
+        int randomNum = rand.nextInt((der - izq)) + izq;
+        return randomNum;
     }
 
     protected int[] ordenarPorHeapSort(int[] datosParaClasificar) {
@@ -231,17 +242,36 @@ public class TClasificador {
         return salida;
     }
 
-    private int encuentraPivote(int izq, int der) {
-        if (izq == der) {
-            return -1;
+    protected int[] ordenarPorBinsort(int[] datosParaClasificar, int cantidadUrnas) {
+        ArrayList<Integer>[] urnas = new ArrayList[cantidadUrnas];
+        for (int i = 0; i < urnas.length; i++) {
+            urnas[i] = new ArrayList<>();
         }
-        return ((izq + der) / 2);
+        for (int i = 0; i < datosParaClasificar.length; i++) {
+            urnas[dms(datosParaClasificar[i])].add(datosParaClasificar[i]);
+        }
+        int ultimaPosicion = 0;
+        for (int i = 0; i < cantidadUrnas; i++) {
+            Integer[] urna = urnas[i].toArray(new Integer[urnas[i].size()]);
+            int[] urnaParaOrdenar = new int[urna.length];
+            for (int k = 0; k < urna.length; k++) {
+                urnaParaOrdenar[k] = urna[k];
+            }
+            int[] urnaOrdenada = ordenarPorInsercion(urnaParaOrdenar);
+            urnas[i].clear();
+            for (int j = 0; j < urnaOrdenada.length; j++) {
+                datosParaClasificar[ultimaPosicion] = urnaOrdenada[j];
+                ultimaPosicion++;
+            }
+        }
+        return datosParaClasificar;
     }
-
-    private int encuentraPivote1(int izq, int der) {
-        Random rand = new Random();
-        int randomNum = rand.nextInt((der - izq)) + izq;
-        return randomNum;
+    
+    private int dms(int n) {
+        while (n >= 10) {
+            n = n/10;
+        }
+        return (int) Math.floor(n);
     }
 
     public static void main(String args[]) {
@@ -348,7 +378,72 @@ public class TClasificador {
 //        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_SELECCION)));
 //        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_SELECCION)));
 //        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_SELECCION)));
-        
+//        
+//        System.out.println("");
+//        System.out.println("**INSERCION DIRECTA**");
+//        System.out.println("Inserción 300 aleatorio:   " + (medidaTiempo.medir(gdg1.generarDatosAleatorios(), METODO_CLASIFICACION_INSERCION)));
+//        System.out.println("Inserción 300 ascendente:  " + (medidaTiempo.medir(gdg1.generarDatosAscendentes(), METODO_CLASIFICACION_INSERCION)));
+//        System.out.println("Inserción 300 descendente: " + (medidaTiempo.medir(gdg1.generarDatosDescendentes(), METODO_CLASIFICACION_INSERCION)));
+//
+//        System.out.println("");
+//        System.out.println("Inserción 10.000 aleatorio:   " + (medidaTiempo.medir(gdg2.generarDatosAleatorios(), METODO_CLASIFICACION_INSERCION)));
+//        System.out.println("Inserción 10.000 ascendente:  " + (medidaTiempo.medir(gdg2.generarDatosAscendentes(), METODO_CLASIFICACION_INSERCION)));
+//        System.out.println("Inserción 10.000 descendente: " + (medidaTiempo.medir(gdg2.generarDatosDescendentes(), METODO_CLASIFICACION_INSERCION)));
+//
+//        System.out.println("");
+//        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_INSERCION)));
+//        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_INSERCION)));
+//        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_INSERCION)));
+//
+//        System.out.println("");
+//        System.out.println("**BUBBLESORT**");
+//        System.out.println("Inserción 300 aleatorio:   " + (medidaTiempo.medir(gdg1.generarDatosAleatorios(), METODO_CLASIFICACION_BURBUJA)));
+//        System.out.println("Inserción 300 ascendente:  " + (medidaTiempo.medir(gdg1.generarDatosAscendentes(), METODO_CLASIFICACION_BURBUJA)));
+//        System.out.println("Inserción 300 descendente: " + (medidaTiempo.medir(gdg1.generarDatosDescendentes(), METODO_CLASIFICACION_BURBUJA)));
+//
+//        System.out.println("");
+//        System.out.println("Inserción 10.000 aleatorio:   " + (medidaTiempo.medir(gdg2.generarDatosAleatorios(), METODO_CLASIFICACION_BURBUJA)));
+//        System.out.println("Inserción 10.000 ascendente:  " + (medidaTiempo.medir(gdg2.generarDatosAscendentes(), METODO_CLASIFICACION_BURBUJA)));
+//        System.out.println("Inserción 10.000 descendente: " + (medidaTiempo.medir(gdg2.generarDatosDescendentes(), METODO_CLASIFICACION_BURBUJA)));
+//
+//        System.out.println("");
+//        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_BURBUJA)));
+//        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_BURBUJA)));
+//        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_BURBUJA)));
+//
+//        System.out.println("");
+//        System.out.println("**QUICKSORT**");
+//        System.out.println("Inserción 300 aleatorio:   " + (medidaTiempo.medir(gdg1.generarDatosAleatorios(), METODO_CLASIFICACION_QUICKSORT)));
+//        System.out.println("Inserción 300 ascendente:  " + (medidaTiempo.medir(gdg1.generarDatosAscendentes(), METODO_CLASIFICACION_QUICKSORT)));
+//        System.out.println("Inserción 300 descendente: " + (medidaTiempo.medir(gdg1.generarDatosDescendentes(), METODO_CLASIFICACION_QUICKSORT)));
+//
+//        System.out.println("");
+//        System.out.println("Inserción 10.000 aleatorio:   " + (medidaTiempo.medir(gdg2.generarDatosAleatorios(), METODO_CLASIFICACION_QUICKSORT)));
+//        System.out.println("Inserción 10.000 ascendente:  " + (medidaTiempo.medir(gdg2.generarDatosAscendentes(), METODO_CLASIFICACION_QUICKSORT)));
+//        System.out.println("Inserción 10.000 descendente: " + (medidaTiempo.medir(gdg2.generarDatosDescendentes(), METODO_CLASIFICACION_QUICKSORT)));
+//        
+//        System.out.println("");
+//        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_QUICKSORT)));
+//        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_QUICKSORT)));
+//        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_QUICKSORT)));
+//
+//        System.out.println("");
+//        System.out.println("**SHELLSORT**");
+//        System.out.println("Inserción 300 aleatorio:   " + (medidaTiempo.medir(gdg1.generarDatosAleatorios(), METODO_CLASIFICACION_SHELL)));
+//        System.out.println("Inserción 300 ascendente:  " + (medidaTiempo.medir(gdg1.generarDatosAscendentes(), METODO_CLASIFICACION_SHELL)));
+//        System.out.println("Inserción 300 descendente: " + (medidaTiempo.medir(gdg1.generarDatosDescendentes(), METODO_CLASIFICACION_SHELL)));
+//
+//        System.out.println("");
+//        System.out.println("Inserción 10.000 aleatorio:   " + (medidaTiempo.medir(gdg2.generarDatosAleatorios(), METODO_CLASIFICACION_SHELL)));
+//        System.out.println("Inserción 10.000 ascendente:  " + (medidaTiempo.medir(gdg2.generarDatosAscendentes(), METODO_CLASIFICACION_SHELL)));
+//        System.out.println("Inserción 10.000 descendente: " + (medidaTiempo.medir(gdg2.generarDatosDescendentes(), METODO_CLASIFICACION_SHELL)));
+//
+//        System.out.println("");
+//        System.out.println("Inserción 30.000 aleatorio:   " + (medidaTiempo.medir(gdg3.generarDatosAleatorios(), METODO_CLASIFICACION_SHELL)));
+//        System.out.println("Inserción 30.000 ascendente:  " + (medidaTiempo.medir(gdg3.generarDatosAscendentes(), METODO_CLASIFICACION_SHELL)));
+//        System.out.println("Inserción 30.000 descendente: " + (medidaTiempo.medir(gdg3.generarDatosDescendentes(), METODO_CLASIFICACION_SHELL)));
+
+
         System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_INSERCION, false)));
         System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_SHELL, false)));
         System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_BURBUJA, false)));
@@ -356,7 +451,7 @@ public class TClasificador {
         System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_HEAPSORT, false)));
         System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_SELECCION, false)));
         System.out.println(Arrays.toString(clasif.ordenarPorCuenta(new int[]{1, 3, 2, 1, 4, 5, 4, 4}, 5)));
-//        System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_BINSORT, false)));
+        System.out.println(Arrays.toString(clasif.ordenarPorBinsort(new int[]{10, 37, 25, 16, 46, 57, 47, 49, 23, 14, 34, 22}, 6)));
 //        System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_RADIX, false)));
     }
 }
