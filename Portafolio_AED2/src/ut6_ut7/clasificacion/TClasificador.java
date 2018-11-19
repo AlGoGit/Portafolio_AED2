@@ -12,7 +12,8 @@ public class TClasificador {
     public static final int METODO_CLASIFICACION_QUICKSORT = 4;
     public static final int METODO_CLASIFICACION_HEAPSORT = 5;
     public static final int METODO_CLASIFICACION_SELECCION = 6;
-    public static final int METODO_CLASIFICACION_RADIX = 7;
+    public static final int METODO_CLASIFICACION_BINSORT = 7;
+    public static final int METODO_CLASIFICACION_RADIX = 8;
 
     /**
      * Punto de entrada al clasificador
@@ -38,6 +39,10 @@ public class TClasificador {
                     return ordenarPorHeapSort(datosParaClasificar);
                 case METODO_CLASIFICACION_SELECCION:
                     return ordenarPorSeleccion(datosParaClasificar);
+                case METODO_CLASIFICACION_BINSORT:
+                    return ordenarPorBinsort(datosParaClasificar);
+                case METODO_CLASIFICACION_RADIX:
+                    return ordenarPorRadixsort(datosParaClasificar);
                 default:
                     System.err.println("Este codigo no deberia haberse ejecutado");
                     break;
@@ -241,23 +246,31 @@ public class TClasificador {
         }
         return salida;
     }
+    
+    protected int[] ordenarPorBinsort(int[] datosParaClasificar) {
+        int max = maximo(datosParaClasificar);
+        int cifrasMax = numeroDeCifras(max);
+        return binsort(datosParaClasificar, cifrasMax, false);
+    }
 
-    protected int[] ordenarPorBinsort(int[] datosParaClasificar, int cantidadUrnas) {
-        ArrayList<Integer>[] urnas = new ArrayList[cantidadUrnas];
+    private int[] binsort(int[] datosParaClasificar, int cifrasMax, boolean radix) {
+        ArrayList<Integer>[] urnas = new ArrayList[10];
         for (int i = 0; i < urnas.length; i++) {
             urnas[i] = new ArrayList<>();
         }
         for (int i = 0; i < datosParaClasificar.length; i++) {
-            urnas[dms(datosParaClasificar[i])].add(datosParaClasificar[i]);
+            urnas[digitoEnPosicion(datosParaClasificar[i], cifrasMax)].add(datosParaClasificar[i]);
         }
         int ultimaPosicion = 0;
-        for (int i = 0; i < cantidadUrnas; i++) {
+        for (int i = 0; i < 10; i++) {
             Integer[] urna = urnas[i].toArray(new Integer[urnas[i].size()]);
-            int[] urnaParaOrdenar = new int[urna.length];
+            int[] urnaOrdenada = new int[urna.length];
             for (int k = 0; k < urna.length; k++) {
-                urnaParaOrdenar[k] = urna[k];
+                urnaOrdenada[k] = urna[k];
             }
-            int[] urnaOrdenada = ordenarPorInsercion(urnaParaOrdenar);
+            if (!radix) {
+                urnaOrdenada = ordenarPorInsercion(urnaOrdenada);
+            }
             urnas[i].clear();
             for (int j = 0; j < urnaOrdenada.length; j++) {
                 datosParaClasificar[ultimaPosicion] = urnaOrdenada[j];
@@ -267,11 +280,39 @@ public class TClasificador {
         return datosParaClasificar;
     }
     
-    private int dms(int n) {
-        while (n >= 10) {
-            n = n/10;
+    private int digitoEnPosicion(int n, int pos) {
+        int a = n % (int) Math.pow(10, pos);
+        int x = (int) Math.pow(10, pos - 1);
+        if (a < x) {
+            return 0;
         }
-        return (int) Math.floor(n);
+        while (a >= 10) {
+            a = a/10;
+        }
+        return a;
+    }
+    
+    private int maximo(int[] datos) {
+        int max = Integer.MIN_VALUE;
+        for (int i : datos) {
+            if (i > max) {
+                max = i;
+            }
+        }
+        return max;
+    }
+    
+    private int numeroDeCifras(int i) {
+        return (int) (Math.log10(i) + 1);
+    }
+    
+    protected int[] ordenarPorRadixsort(int[] datosParaClasificar) {
+        int max = maximo(datosParaClasificar);
+        int cifrasMax = numeroDeCifras(max);
+        for (int i = 1; i <= cifrasMax; i++) {
+            datosParaClasificar = binsort(datosParaClasificar, i, true);
+        }
+        return datosParaClasificar;
     }
 
     public static void main(String args[]) {
@@ -451,7 +492,7 @@ public class TClasificador {
         System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_HEAPSORT, false)));
         System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_SELECCION, false)));
         System.out.println(Arrays.toString(clasif.ordenarPorCuenta(new int[]{1, 3, 2, 1, 4, 5, 4, 4}, 5)));
-        System.out.println(Arrays.toString(clasif.ordenarPorBinsort(new int[]{10, 37, 25, 16, 46, 57, 47, 49, 23, 14, 34, 22}, 6)));
-//        System.out.println(Arrays.toString(clasif.clasificar(gdg4.generarDatosAleatorios(), METODO_CLASIFICACION_RADIX, false)));
+        System.out.println(Arrays.toString(clasif.clasificar(new int[]{10, 25, 37, 1, 16, 46, 57, 102, 478, 456, 5, 47, 49, 23, 34, 14, 22}, METODO_CLASIFICACION_BINSORT, false)));
+        System.out.println(Arrays.toString(clasif.clasificar(new int[]{10, 25, 37, 1, 16, 46, 57, 102, 478, 456, 5, 47, 49, 23, 34, 14, 22}, METODO_CLASIFICACION_RADIX, false)));
     }
 }
